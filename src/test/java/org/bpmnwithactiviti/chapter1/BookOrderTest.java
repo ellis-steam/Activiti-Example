@@ -22,8 +22,14 @@ public class BookOrderTest {
 	@Test
 	public void startBookOrder() {
 		ProcessEngine processEngine = ProcessEngineConfiguration
-			.createStandaloneProcessEngineConfiguration()
+			.createStandaloneInMemProcessEngineConfiguration()
 		 	.buildProcessEngine(); 
+		//Don't know why here suddenly changed the use from
+		//createStandaloneInMemProcessEngineConfiguration()
+		//to
+		//createStandaloneProcessEngineConfiguration()
+		//and broke the whole method.
+		
 		
 		RepositoryService repositoryService = processEngine.getRepositoryService();
 		RuntimeService runtimeService = processEngine.getRuntimeService();
@@ -37,7 +43,7 @@ public class BookOrderTest {
 		List<Task> availableTaskList = taskService.createTaskQuery().taskName("Work on order").list();
 		for (Task task : availableTaskList) {
 	    taskService.complete(task.getId());
-    }	
+		}	
 		
 		Map<String, Object> variableMap = new HashMap<String, Object>();
 		variableMap.put("isbn", "123456");
